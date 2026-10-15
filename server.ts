@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
+import healthHandler from './api/health.ts';
+import busarrivalHandler from './api/busarrival.ts';
+import revgeocodeHandler from './api/revgeocode.ts';
 
 dotenv.config();
 
@@ -13,6 +16,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// Serverless API handlers
+app.all('/api/health', healthHandler);
+app.all('/api/busarrival', busarrivalHandler);
+app.all('/api/revgeocode', revgeocodeHandler);
 
 // Initialize Google GenAI client if key exists
 const apiKey = process.env.GEMINI_API_KEY;
